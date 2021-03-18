@@ -6,3 +6,95 @@ description: Rocktech LCD module with LED backlight and capacitive touch panel
 compatible: "rocktech,rk043fn02h-ct"
 
 include: base.yaml
+
+properties:
+    bits-per-pixel:
+      type: int
+      required: true
+
+    bus-width:
+      type: int
+      enum:
+        - 8
+        - 16
+        - 24
+        - 32
+      required: true
+
+    clock-frequency:
+      type: int
+      required: false
+
+    hactive:
+      type: int
+      required: true
+
+    vactive:
+      type: int
+      required: true
+      
+    hsync-len:
+      type: int
+      required: true
+      
+    hfront-porch:
+      type: int
+      required: true
+      
+    hback-porch:
+      type: int
+      required: true
+      
+    vsync-len:
+      type: int
+      required: true
+      
+    vfront-porch:
+      type: int
+      required: true
+      
+    vback-porch:
+      type: int
+      required: true
+      
+    hsync-active-high:
+      type: boolean
+      required: false
+
+    hsync-active-low:
+      type: boolean
+      required: false
+      
+    vsync-active-high:
+      type: boolean
+      required: false
+
+    vsync-active-low:
+      type: boolean
+      required: false
+      
+    de-active-high:
+      type: boolean
+      required: false
+
+    de-active-low:
+      type: boolean
+      required: false
+      
+    pixelclk-rising:
+      type: boolean
+      required: false
+
+    pixelclk-falling:
+      type: boolean
+      required: false
+
+    pixel-format:
+      type: int
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+      required: false

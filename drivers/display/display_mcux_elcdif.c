@@ -6,8 +6,10 @@
 
 #define DT_DRV_COMPAT fsl_imx6sx_lcdif
 
+#include <devicetree.h>
 #include <drivers/display.h>
 #include <fsl_elcdif.h>
+#include <dt-bindings/display/elcdif.h>
 
 #ifdef CONFIG_HAS_MCUX_CACHE
 #include <fsl_cache.h>
@@ -229,29 +231,73 @@ static const struct display_driver_api mcux_elcdif_api = {
 
 static void mcux_elcdif_config_func_1(const struct device *dev);
 
+#define PANEL DT_GPARENT(DT_NODELABEL(lcd_panel_in))
+/*#define TIMING DT_CHILD(DT_CHILD(PANEL, display_timings), timing)*/
+#define PANEL_DATA_BUS_WIDTH_HELPER(x) kELCDIF_DataBus ## x ## Bit
+#define PANEL_DATA_BUS_WIDTH(x) PANEL_DATA_BUS_WIDTH_HELPER(x)
+
+#if DT_PROP(PANEL, de_active_low) == 1
+	#define PANEL_DE_ACTIVE kELCDIF_DataEnableActiveLow
+#else
+	#define PANEL_DE_ACTIVE kELCDIF_DataEnableActiveHigh
+#endif
+
+#if DT_PROP(PANEL, vsync_active_high) == 1
+	#define PANEL_VSYNC_ACTIVE kELCDIF_VsyncActiveHigh
+#else
+	#define PANEL_VSYNC_ACTIVE kELCDIF_VsyncActiveLow
+#endif
+
+#if DT_PROP(PANEL, hsync_active_high) == 1
+	#define PANEL_HSYNC_ACTIVE kELCDIF_HsyncActiveHigh
+#else
+	#define PANEL_HSYNC_ACTIVE kELCDIF_HsyncActiveLow
+#endif
+
+#if DT_PROP(PANEL, pixelclk_falling) == 1
+	#define PANEL_PIXELCLK_DATADRIVE kELCDIF_DriveDataOnFallingClkEdge
+#else
+	#define PANEL_PIXELCLK_DATADRIVE kELCDIF_DriveDataOnRisingClkEdge
+#endif
+
+#if DT_PROP(PANEL, pixel_format) == MCUX_PIXEL_FORMAT_RAW8
+	#define PANEL_PIXEL_FORMAT_1 kELCDIF_PixelFormatRAW8
+	#define PANEL_PIXEL_FORMAT_2 PIXEL_FORMAT_MONO01
+#elif DT_PROP(PANEL, pixel_format) == MCUX_PIXEL_FORMAT_RGB666
+	#define PANEL_PIXEL_FORMAT_1 kELCDIF_PixelFormatRGB666
+	#define PANEL_PIXEL_FORMAT_2 PIXEL_FORMAT_RGB_888
+#elif DT_PROP(PANEL, pixel_format) == MCUX_PIXEL_FORMAT_XRGB8888
+	#define PANEL_PIXEL_FORMAT_1 kELCDIF_PixelFormatXRGB8888
+	#define PANEL_PIXEL_FORMAT_2 PIXEL_FORMAT_ARGB_8888
+#elif DT_PROP(PANEL, pixel_format) == MCUX_PIXEL_FORMAT_RGB888
+	#define PANEL_PIXEL_FORMAT_1 kELCDIF_PixelFormatRGB888
+	#define PANEL_PIXEL_FORMAT_2 PIXEL_FORMAT_RGB_888
+#else /* if DT_PROP(PANEL, pixel_format) == MCUX_PIXEL_FORMAT_RGB565 */
+	#define PANEL_PIXEL_FORMAT_1 kELCDIF_PixelFormatRGB565
+	#define PANEL_PIXEL_FORMAT_2 PIXEL_FORMAT_RGB_565
+#endif
+
 static struct mcux_elcdif_config mcux_elcdif_config_1 = {
 	.base = (LCDIF_Type *) DT_INST_REG_ADDR(0),
 	.irq_config_func = mcux_elcdif_config_func_1,
-#ifdef CONFIG_MCUX_ELCDIF_PANEL_RK043FN02H
 	.rgb_mode = {
-		.panelWidth = 480,
-		.panelHeight = 272,
-		.hsw = 41,
-		.hfp = 4,
-		.hbp = 8,
-		.vsw = 10,
-		.vfp = 4,
-		.vbp = 2,
-		.polarityFlags = kELCDIF_DataEnableActiveHigh |
-				 kELCDIF_VsyncActiveLow |
-				 kELCDIF_HsyncActiveLow |
-				 kELCDIF_DriveDataOnRisingClkEdge,
-		.pixelFormat = kELCDIF_PixelFormatRGB565,
-		.dataBus = kELCDIF_DataBus16Bit,
+		.panelWidth = DT_PROP(PANEL, hactive),
+		.panelHeight = DT_PROP(PANEL, vactive),
+		.hsw = DT_PROP(PANEL, hsync_len),
+		.hfp = DT_PROP(PANEL, hfront_porch),
+		.hbp = DT_PROP(PANEL, hback_porch),
+		.vsw = DT_PROP(PANEL, vsync_len),
+		.vfp = DT_PROP(PANEL, vfront_porch),
+		.vbp = DT_PROP(PANEL, vback_porch),
+		.polarityFlags = PANEL_DE_ACTIVE |
+				 PANEL_VSYNC_ACTIVE |
+				 PANEL_HSYNC_ACTIVE |
+				 PANEL_PIXELCLK_DATADRIVE,
+		.pixelFormat = PANEL_PIXEL_FORMAT_1,
+		.dataBus = PANEL_DATA_BUS_WIDTH(DT_PROP(PANEL, bus_width)),
 	},
-	.pixel_format = PIXEL_FORMAT_BGR_565,
-	.bits_per_pixel = 16,
-#endif
+	.pixel_format = PANEL_PIXEL_FORMAT_2,
+	.bits_per_pixel = DT_PROP(PANEL, bits_per_pixel),
 };
 
 static struct mcux_elcdif_data mcux_elcdif_data_1;
