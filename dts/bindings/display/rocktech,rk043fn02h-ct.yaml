@@ -25,51 +25,51 @@ properties:
       type: int
       required: false
 
-    hactive:
+    h-active:
       type: int
       required: true
 
-    vactive:
+    v-active:
       type: int
       required: true
       
-    hsync-len:
+    h-sync:
       type: int
       required: true
       
-    hfront-porch:
+    h-front-porch:
       type: int
       required: true
       
-    hback-porch:
+    h-back-porch:
       type: int
       required: true
       
-    vsync-len:
+    v-sync:
       type: int
       required: true
       
-    vfront-porch:
+    v-front-porch:
       type: int
       required: true
       
-    vback-porch:
+    v-back-porch:
       type: int
       required: true
       
-    hsync-active-high:
+    h-sync-active-high:
       type: boolean
       required: false
 
-    hsync-active-low:
+    h-sync-active-low:
       type: boolean
       required: false
       
-    vsync-active-high:
+    v-sync-active-high:
       type: boolean
       required: false
 
-    vsync-active-low:
+    v-sync-active-low:
       type: boolean
       required: false
       

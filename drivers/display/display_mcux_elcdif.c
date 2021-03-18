@@ -281,14 +281,14 @@ static struct mcux_elcdif_config mcux_elcdif_config_1 = {
 	.base = (LCDIF_Type *) DT_INST_REG_ADDR(0),
 	.irq_config_func = mcux_elcdif_config_func_1,
 	.rgb_mode = {
-		.panelWidth = DT_PROP(PANEL, hactive),
-		.panelHeight = DT_PROP(PANEL, vactive),
-		.hsw = DT_PROP(PANEL, hsync_len),
-		.hfp = DT_PROP(PANEL, hfront_porch),
-		.hbp = DT_PROP(PANEL, hback_porch),
-		.vsw = DT_PROP(PANEL, vsync_len),
-		.vfp = DT_PROP(PANEL, vfront_porch),
-		.vbp = DT_PROP(PANEL, vback_porch),
+		.panelWidth = DT_PROP(PANEL, h_active),
+		.panelHeight = DT_PROP(PANEL, v_active),
+		.hsw = DT_PROP(PANEL, h_sync),
+		.hfp = DT_PROP(PANEL, h_front_porch),
+		.hbp = DT_PROP(PANEL, h_back_porch),
+		.vsw = DT_PROP(PANEL, v_sync),
+		.vfp = DT_PROP(PANEL, v_front_porch),
+		.vbp = DT_PROP(PANEL, v_back_porch),
 		.polarityFlags = PANEL_DE_ACTIVE |
 				 PANEL_VSYNC_ACTIVE |
 				 PANEL_HSYNC_ACTIVE |

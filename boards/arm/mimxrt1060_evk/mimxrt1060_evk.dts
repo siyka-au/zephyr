@@ -82,22 +82,22 @@
 
 	panel0: panel {
 		compatible = "rocktech,rk043fn02h-ct";
-		bits-per-pixel = <16>;
-		bus-width = <16>;
-		clock-frequency = <9300000>;
-		hactive = <480>;
-		vactive = <272>;
-		hsync-len = <41>;
-		hfront-porch = <4>;
-		hback-porch = <8>;
-		vsync-len = <10>;
-		vfront-porch = <4>;
-		vback-porch = <2>;
-		hsync-active-low;
-		vsync-active-low;
+		h-active = <480>;
+		v-active = <272>;
+		h-sync = <41>;
+		h-front-porch = <4>;
+		h-back-porch = <8>;
+		v-sync = <10>;
+		v-front-porch = <4>;
+		v-back-porch = <2>;
+		h-sync-active-low;
+		v-sync-active-low;
 		de-active-high;
 		pixelclk-rising;
+		bits-per-pixel = <16>;
 		pixel-format = <MCUX_PIXEL_FORMAT_RGB565>;
+		bus-width = <16>;
+		clock-frequency = <9300000>;
 		port {
 			lcd_panel_in: endpoint {
 				remote-endpoint = <&lcd_panel_out>;
