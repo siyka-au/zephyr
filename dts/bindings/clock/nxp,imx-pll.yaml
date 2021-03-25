@@ -1,0 +1,38 @@
+# Copyright (c) 2017, NXP
+# SPDX-License-Identifier: Apache-2.0
+
+description: i.MX PLL
+
+compatible: "nxp,imx-pll"
+
+include: base.yaml
+
+properties:
+    reg:
+      required: true
+
+    label:
+      required: true
+
+    enable:
+      type: boolean
+      required: true
+
+    bypass-clk-src:
+      type: int
+      enum:
+        - 0
+        - 1
+      required: true
+
+    divider:
+      type: int
+    
+    numerator:
+      type: int
+
+    denominator:
+      type: int
+
+    post-divider:
+      type: int

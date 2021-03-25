@@ -72,11 +72,16 @@ const clock_enet_pll_config_t ethPllConfig = {
 
 #ifdef CONFIG_INIT_VIDEO_PLL
 const clock_video_pll_config_t videoPllConfig = {
-	.loopDivider = 31,
-	.postDivider = 8,
-	.numerator = 0,
-	.denominator = 0,
+	.loopDivider = DT_PROP(DT_NODELABEL(video_pll), divider),
+	.postDivider = DT_PROP(DT_NODELABEL(video_pll), post_divider),
+	.numerator = DT_PROP(DT_NODELABEL(video_pll), numerator),
+	.denominator = DT_PROP(DT_NODELABEL(video_pll), denominator),
 };
+
+	// .loopDivider = 31,
+	// .postDivider = 8,
+	// .numerator = 0,
+	// .denominator = 0,
 #endif
 
 #ifdef CONFIG_NXP_IMX_RT_BOOT_HEADER
@@ -178,9 +183,9 @@ static ALWAYS_INLINE void clock_init(void)
 #endif
 
 #ifdef CONFIG_DISPLAY_MCUX_ELCDIF
-	CLOCK_SetMux(kCLOCK_LcdifPreMux, 2);
-	CLOCK_SetDiv(kCLOCK_LcdifPreDiv, 4);
-	CLOCK_SetDiv(kCLOCK_LcdifDiv, 1);
+	CLOCK_SetMux(kCLOCK_LcdifPreMux, DT_PROP(DT_NODELABEL(lcdif), clk_source));
+	CLOCK_SetDiv(kCLOCK_LcdifPreDiv, DT_PROP(DT_NODELABEL(lcdif), clk_pre_divider));
+	CLOCK_SetDiv(kCLOCK_LcdifDiv, DT_PROP(DT_NODELABEL(lcdif), clk_post_divider));
 #endif
 
 #if CONFIG_USB_DC_NXP_EHCI

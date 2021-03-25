@@ -122,6 +122,12 @@
 			label = "CCM";
 
 			#clock-cells = <3>;
+
+			video_pll: pll {
+				compatible = "nxp,imx-pll";
+				label = "VIDEO_PLL";
+				status = "disabled";
+			};
 		};
 
 		gpio1: gpio@401b8000 {
@@ -228,6 +234,7 @@
 			interrupts = <42 0>;
 			label = "ELCDIF_1";
 			status = "disabled";
+			clocks = <&ccm IMX_CCM_VIDEO_CLK 0x74 10>;
 		};
 
 		lpspi1: spi@40394000 {

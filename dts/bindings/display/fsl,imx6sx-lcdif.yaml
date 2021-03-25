@@ -14,5 +14,42 @@ properties:
     interrupts:
       required: true
 
+    clk-source:
+      type: int
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      required: true
+
+    clk-pre-divider:
+      type: int
+      required: true
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+
+    clk-post-divider:
+      type: int
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+      required: true
+
     label:
       required: true

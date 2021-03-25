@@ -121,8 +121,21 @@ arduino_serial: &lpuart3 {};
 	};
 };
 
+&video_pll {
+	compatible = "nxp,imx-pll";
+	label = "VIDEO_PLL";
+	bypass-clk-src = <IMX_CCM_BYPASS_CLK_SRC_REF_CLK_24M>;
+	divider = <31>;
+	numerator = <0>;
+	denominator = <0>;
+	post-divider = <8>;
+};
+
 &lcdif {
 	status = "okay";
+	clk-source = <MCUX_ELCDIF_PRE_CLK_SRC_PLL5>;
+	clk-pre-divider = <MCUX_ELCDIF_DIVIDE_BY_5>;
+	clk-post-divider = <MCUX_ELCDIF_DIVIDE_BY_1>;
 	port {
 		lcd_panel_out: endpoint {
 			remote-endpoint = <&lcd_panel_in>;
